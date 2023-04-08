@@ -205,11 +205,11 @@ void dekoduj(FILE *pinh,FILE *pout,unsigned int *czesto){
 		else{
 			n=n->left;
 		}
-        if(n->c){
+        	if(n->c){
 		    //putchar(n->c);
 		    fputc(n->c,pout);
 		    n=q[1];
-        }
+        	}
 		c=c<<1;
 		if(++j>7){
 			j=0;
