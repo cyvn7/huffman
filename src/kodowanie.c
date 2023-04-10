@@ -125,52 +125,6 @@ void koduj(FILE* pin,FILE* pout,unsigned int *czesto){
 	//putchar('\n');
 }
 
-/*
-void wypisz(unsigned int *czesto){
-	int i;
-	printf("\nKODY\n----------------------------\nZNAK\tILOSC\tKOD\n----------------------------\n");
-	for(i=0; i<128; i++){
-		if(isprint((char)i)&&kod[i]!=NULL&&i!=' ')
-			printf("%-4c  %-4d  %16s\n",i,czesto[i],kod[i]);
-		else if(kod[i]!=NULL){
-			switch(i){
-				case '\n':
-					printf("\\n  ");
-					break;
-				case ' ':
-					printf("\' \' ");
-					break;
-				case '\t':
-					printf("\\t  ");
-					break;
-				default:
-					printf("%0X  ",(char)i);
-					break;
-			}
-			printf("  %-4d  %16s\n",czesto[i],kod[i]);
-		}
-	}
-	printf("----------------------------\n");
-
-}
-
-void czytajTabele(FILE *pint, unsigned int *czesto){
-	char c;
-	int i=0;
-	while((c=fgetc(pint))!=EOF){
-                czesto[i++] = (unsigned char)c;
-	}
-	for(i=0;i<128;i++){
-		if(czesto[i]){
-			dodajK(nowyWezel(czesto[i],i,0,0));	
-		}
-	}
-	while (koniec > 2){
-		dodajK(nowyWezel(0,0,usunK(),usunK()));
-	}
-}
-*/
-
 void dekoduj(FILE *pinh,FILE *pout,unsigned int *czesto){
 	int i=0,lim=0,j=0;
 	char c,s1,s2,s3,s4,s5,s6,s7,s8,s9,bin;
