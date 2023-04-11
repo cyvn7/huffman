@@ -4,6 +4,26 @@
 #include "kodowanie.h"
 #include "szyfruj.h"
 #include "flagi.h"
+
+
+/*
+╔═══╗╔═══╗╔═╗╔═╗╔═══╗╔═══╗
+║╔═╗║║╔═╗║║║╚╝║║║╔═╗║║╔═╗║
+║╚═╝║║║ ║║║╔╗╔╗║║║ ║║║║ ╚╝
+║╔══╝║║ ║║║║║║║║║║ ║║║║ ╔╗
+║║   ║╚═╝║║║║║║║║╚═╝║║╚═╝║
+╚╝   ╚═══╝╚╝╚╝╚╝╚═══╝╚═══╝
+  */
+
+void help() {
+	printf("--------DEKOMPRESOR I KOMPRESOR ALGORYTUMU HUFFMANA--------\n");
+	printf("Program służy kompresji bądź dekompresji plików za pomocą algorytmu Huffmana. W wywołaniu programu należy podać nazwę pliku wejściowego, oraz flagi w zależności od tego jaką czynność program ma wykonać:\n");
+	printf("-k - kompresowanie pliku\n");
+	printf("-d - dekompresowanie pliku\n");
+	printf("-s - szyfrowanie/deszyfrowanie pliku");
+	printf("-h - wyświetlenie pomocy\n");
+}
+
 /*
 ╔╗ ╔╗╔╗ ╔╗ ╔═══╗ ╔═══╗╔═╗╔═╗╔═══╗╔═╗ ╔╗
 ║║ ║║║║ ║║ ║╔══╝ ║╔══╝║║╚╝║║║╔═╗║║║╚╗║║
@@ -19,20 +39,22 @@
 ║║║║║║║╔═╗║╔╣╠╗║║ ║║║
 ╚╝╚╝╚╝╚╝ ╚╝╚══╝╚╝ ╚═╝
 */
+
 int main(int argc, char* argv[]){
-	FILE *pin, *pout, *pint, *pinh;//plik in (pin), plik out (pout)
+	FILE *pin, *pout, *pinh;//plik in (pin), plik out (pout)
 	char nazwaPliku[1024]={0}, nazwaSzyfru[512]={0},tylkoNazwa[512]={0};
 	strcpy(nazwaPliku,"dane/");
 	unsigned int czesto[128]={0},i;
-	int kompresja=0,dekompresja=0,szyfrowanie=0,poziom=1;
+	int kompresja=0,dekompresja=0,szyfrowanie=0,poziom=1,pomoc=0;
 	for(int i=0;i<argc-1;i++){
-		sprawdzArgv(argv[i+1],&kompresja,&dekompresja,&szyfrowanie,&poziom,nazwaPliku,tylkoNazwa);
+		sprawdzArgv(argv[i+1],&kompresja,&dekompresja,&szyfrowanie,&poziom,nazwaPliku,tylkoNazwa,&pomoc);
 	}
 
 	if(strcmp(tylkoNazwa,"")!=0 && kompresja==0 && dekompresja==0){
 		if((pin=fopen(nazwaPliku,"r"))==NULL){
 			printf("\nBłąd otwarcia pliku\n");
-			return 0;
+			help();
+			return 1;
 		}
 		if(sprawdzCzyDekod(pin)) kompresja=1;
 		else dekompresja=1;
@@ -43,10 +65,13 @@ int main(int argc, char* argv[]){
 	
 	if(strlen(nazwaPliku)>=128){
 		printf("\nZa długa nazwa pliku (max 128 znaków)\n");
-		return 0;
+		help();
+		return 1;
 	}	
-	if(kompresja==1 && dekompresja==1){
-		printf("\nBłąd wywołania. Określ czy zamierzasz kompresować czy dekompresować.\n");
+
+
+	if(pomoc) {
+		help();
 		return 0;
 	}
 /*	
@@ -62,7 +87,8 @@ int main(int argc, char* argv[]){
 	if (szyfrowanie==1 && kompresja==1){
 		if((pin=fopen(nazwaPliku,"r"))==NULL){
 			printf("\nBłąd otwarcia pliku\n");
-			return 0;
+			help();
+			return 1;
 		}
 		strcpy(nazwaSzyfru,nazwaPliku);
 		*strstr(nazwaSzyfru,".txt")='\0';
@@ -87,7 +113,8 @@ int main(int argc, char* argv[]){
 	if(kompresja==1){
 		if((pin=fopen(nazwaPliku,"r"))==NULL){
 			printf("\nBłąd otwarcia pliku\n");
-			return 0;
+			help();
+			return 1;
 		}
 		przetworzPlik(pin,czesto);
 		
@@ -126,11 +153,13 @@ int main(int argc, char* argv[]){
 	else if(dekompresja==1){
 		if(strstr(nazwaPliku,"huffman") == NULL){
 			printf("\nBłędne rozszerzenie pliku wejsciowego do dekodowania\n");
-			return 0;
+			help();
+			return 1;
 		}
 		if((pinh = fopen(nazwaPliku,"r"))==NULL){
 			printf("\nBłąd otwarcia pilku\n");
-			return 0;
+			help();
+			return 1;
 		}
 		*strstr(nazwaPliku,".txt") = '\0';
 		pout=fopen(strcat(nazwaPliku,"O.txt"),"w");
@@ -159,5 +188,6 @@ int main(int argc, char* argv[]){
 		remove(nazwaPliku);
 		rename(nazwaSzyfru,nazwaPliku);
 	}
+
 	return 0;
 }
