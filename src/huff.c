@@ -39,12 +39,16 @@ int main(int argc, char* argv[]){
 		fclose(pin);
 	}
 	
-	printf("\n\nkompresja:%d dekompresja:%d szyfrowanie:%d poziom:%d nazwa:%s\n\n\n",kompresja,dekompresja,szyfrowanie,poziom,nazwaPliku);
+	//printf("\n\nkompresja:%d dekompresja:%d szyfrowanie:%d poziom:%d nazwa:%s\n\n\n",kompresja,dekompresja,szyfrowanie,poziom,nazwaPliku);
 	
 	if(strlen(nazwaPliku)>=128){
 		printf("\nZa długa nazwa pliku (max 128 znaków)\n");
 		return 0;
 	}	
+	if(kompresja==1 && dekompresja==1){
+		printf("\nBłąd wywołania. Określ czy zamierzasz kompresować czy dekompresować.\n);
+		return 0;
+	}
 /*	
 
 ╔═══╗╔════╗╔╗  ╔╗ ╔═══╗╔═══╗╔═══╗╔╗╔╗╔╗╔═══╗╔═╗ ╔╗╔══╗╔═══╗
