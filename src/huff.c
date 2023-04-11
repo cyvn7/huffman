@@ -46,7 +46,7 @@ int main(int argc, char* argv[]){
 		return 0;
 	}	
 	if(kompresja==1 && dekompresja==1){
-		printf("\nBłąd wywołania. Określ czy zamierzasz kompresować czy dekompresować.\n);
+		printf("\nBłąd wywołania. Określ czy zamierzasz kompresować czy dekompresować.\n");
 		return 0;
 	}
 /*	
